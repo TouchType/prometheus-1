@@ -182,7 +182,6 @@ var (
 
 	// DefaultAzureServiceFabricSDConfig is the default Azure Service Fabric SD configuration.
 	DefaultAzureServiceFabricSDConfig = AzureServiceFabricSDConfig{
-		Endpoints:       map[string]struct{}{},
 		RefreshInterval: model.Duration(time.Minute),
 	}
 )
@@ -1459,8 +1458,7 @@ type AzureServiceFabricSDConfig struct {
 func (c *AzureServiceFabricSDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultAzureServiceFabricSDConfig
 	type plain AzureServiceFabricSDConfig
-	err := unmarshal((*plain)(c))
-	if err != nil {
+	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
 
